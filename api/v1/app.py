@@ -18,6 +18,7 @@ def close_session(exc):
 
 @app.errorhandler(404)
 def page_not_found(error):
+    """custom error handler"""
     return jsonify({"error": "Not found"}), 404
 
 
