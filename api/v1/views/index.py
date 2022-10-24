@@ -9,11 +9,14 @@ from models.state import State
 from models.user import User
 from flask import jsonify
 
-classes = {"amenity": Amenity, "city": City, "place": Place, "review": Review, "state": State, "user": User}
+classes = {"amenity": Amenity, "city": City, "place": Place,
+           "review": Review, "state": State, "user": User}
+
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def return_status():
     return jsonify({"status": "OK"})
+
 
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def return_count():
