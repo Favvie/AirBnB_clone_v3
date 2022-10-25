@@ -9,14 +9,15 @@ from flask import jsonify, request, make_response, abort
 
 @app_views.route('/states', strict_slashes=False)
 def states():
-    storage.reload()
-    arr = []
-    for obj in storage.all(State).values():
-        arr.append(obj.to_dict())
-    return jsonify(arr)
+    """return all state instances"""
+    list_states = []
+    states = storage.all(State).values()
+    for state in states:
+        list_states.append(state.to_dict())
+    return jsonify(list_states)
 
 
-@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/states/<state_id>', strict_slashes=False)
 def single_state(state_id):
     """return json for a state object"""
     state = storage.get(State, state_id)
@@ -39,7 +40,7 @@ def delete_state(state_id):
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def post_state():
-    """Create and add a new review for a place"""
+    """Create and add a new state"""
 
     if not request.get_json():
         abort(404, description="Not a JSON")
@@ -49,8 +50,6 @@ def post_state():
     state = request.get_json()
     instance = State(**state)
     instance.save()
-    storage.new(instance)
-    storage.save()
     return make_response(jsonify(instance.to_dict()), 201)
 
 
